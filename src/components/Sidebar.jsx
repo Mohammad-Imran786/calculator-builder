@@ -13,8 +13,8 @@ const Sidebar = () => {
 
     return (
         <aside className={`w-full lg:w-1/4 p-3 sm:p-4 shadow-md border-r transition-colors ${theme === "dark"
-                ? "border-gray-700 bg-gray-900 text-white"
-                : "border-gray-200 bg-gray-100 text-black"
+            ? "border-gray-700 bg-gray-900 text-white"
+            : "border-gray-200 bg-gray-100 text-black"
             }`}>
             <h2 className="mt-3 sm:mt-5 text-lg sm:text-xl text-center font-semibold mb-3">
                 Buttons
@@ -27,7 +27,7 @@ const Sidebar = () => {
             </div>
 
             <p className="mt-6 sm:mt-10 lg:mt-20 text-sm sm:text-base font-thin text-center px-2">
-                The buttons above can be used to build your own calculator.
+                The above buttons can be used to build your own calculator.
                 So, what are you waiting for? Just drag and drop your buttons inside
                 the droppable box of the calculator builder and enjoy it!
             </p>
