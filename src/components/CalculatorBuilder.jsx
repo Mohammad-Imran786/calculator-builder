@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
+import { evaluate } from 'mathjs'
 import { useTheme } from '../context/ThemeContext'
 import Sidebar from './Sidebar'
 
 const CalculatorBuilder = () => {
-  
+
   const [expression, setExpression] = useState('0')
   const [droppedComponents, setDroppedComponents] = useState([])
   const [isDraggingOver, setIsDraggingOver] = useState(false)
@@ -16,7 +17,7 @@ const CalculatorBuilder = () => {
     e.preventDefault()
     setIsDraggingOver(false)
     const label = e.dataTransfer.getData('text/plain')
-    
+
     setHistory(prev => [...prev, { droppedComponents, expression }])
     setRedoHistory([])
     setDroppedComponents(prev => [...prev, label])
@@ -30,7 +31,7 @@ const CalculatorBuilder = () => {
       setExpression('0')
     } else if (value === '=') {
       try {
-        const result = eval(expression === '0' ? '0' : expression);
+        const result = evaluate(expression === '0' ? '0' : expression);
         setExpression(result.toString())
       } catch {
         setExpression('Error')
@@ -47,7 +48,7 @@ const CalculatorBuilder = () => {
       setDroppedComponents(lastState.droppedComponents)
       setExpression(lastState.expression)
       setHistory(prev => prev.slice(0, -1))
-    } 
+    }
     else if (type === 'redo' && redoHistory.length > 0) {
       const nextState = redoHistory[redoHistory.length - 1]
       setHistory(prev => [...prev, { droppedComponents, expression }])
@@ -58,16 +59,14 @@ const CalculatorBuilder = () => {
   }
 
   return (
-    <div className={`flex flex-col lg:flex-row w-full min-h-screen transition-colors ${
-      theme === "dark" ? "bg-gray-800 text-gray-100" : "bg-gray-50 text-gray-800"
-    }`}>
+    <div className={`flex flex-col lg:flex-row w-full min-h-screen transition-colors ${theme === "dark" ? "bg-gray-800 text-gray-100" : "bg-gray-50 text-gray-800"
+      }`}>
       <Sidebar />
       <div className="flex-1 flex flex-col items-center justify-center p-4 lg:p-8">
         <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Calculator Builder</h1>
-        
-        <div className={`w-full max-w-lg rounded-xl shadow-lg p-4 sm:p-6 lg:p-8 transition-colors ${
-          theme === "dark" ? "bg-gray-600" : "bg-white border border-gray-200"
-        }`}>
+
+        <div className={`w-full max-w-lg rounded-xl shadow-lg p-4 sm:p-6 lg:p-8 transition-colors ${theme === "dark" ? "bg-gray-600" : "bg-white border border-gray-200"
+          }`}>
           <div className="bg-gray-50 p-3 sm:p-5 text-right text-2xl sm:text-3xl font-mono rounded-lg mb-4 sm:mb-5 border border-gray-200 text-gray-900">
             {expression}
           </div>
@@ -76,11 +75,10 @@ const CalculatorBuilder = () => {
             onDragOver={(e) => { e.preventDefault(); setIsDraggingOver(true); }}
             onDragLeave={() => setIsDraggingOver(false)}
             onDrop={handleDrop}
-            className={`grid grid-cols-4 gap-2 sm:gap-3 p-4 sm:p-6 rounded-lg transition-all ${
-              isDraggingOver
+            className={`grid grid-cols-4 gap-2 sm:gap-3 p-4 sm:p-6 rounded-lg transition-all ${isDraggingOver
                 ? 'bg-blue-50 border-2 border-blue-300 border-dashed'
                 : 'border-2 border-gray-200 border-dashed'
-            }`}
+              }`}
           >
             {droppedComponents.length > 0 ? (
               droppedComponents.map((component, index) => (
